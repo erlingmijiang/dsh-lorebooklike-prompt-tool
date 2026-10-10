@@ -1,0 +1,21 @@
+# dsh-lorebooklike-prompt-tool bundle patch：把本插件插入 profile 的层栈。
+#
+# 插件挂的全是 DSH 已有的扩展点，不新增任何会话事件类型：
+#   1. ctx.systemPrompt.section()  —— system 通道条目：有序系统提示段（蓝灯/概率）
+#   2. ctx.systemPrompt.context()  —— message 通道条目：物化成 user 角色快照。
+#       宿主把它追加在消息数组**末尾**（dsh-agent-loop: [...claimed, context]），
+#       所以这里的内容天然落在前文下面，不会动到前缀缓存。
+#   3. system-prompt/assemble 瀑布 —— 正则替换：target "system"
+#   4. agent/pre-step 瀑布         —— 记录本轮扫描文本；正则替换：target "user"
+#   5. ctx.inject(['webServer'])   —— 可选：设置页 API（作用域分支，不是硬依赖）
+#
+# webServer 既不能写进顶层 inject，也不能用 ctx.get：
+#   · 写进 inject  → headless / tui 这类没有 web 服务器的 profile 会停在 PENDING，
+#                    核心的提示词注入整个失效。
+#   · 用 ctx.get   → **未在 inject 里声明的服务，即使活着也查不到**，恒返回 undefined，
+#                    于是路由从不注册，设置页永远 404（这个 bug 真实发生过）。
+# ctx.inject(['webServer'], scope => ...) 才对：服务出现时激活分支里的注册，缺席时
+# 只是分支不激活，主插件照常工作。
+- insert:
+    - id: lorebook-prompt
+      name: dsh-lorebooklike-prompt-tool
