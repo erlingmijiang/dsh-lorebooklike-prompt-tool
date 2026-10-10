@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "defaults": {
+    "scanDepth": 2,
+    "caseSensitive": false,
+    "matchWholeWords": false
+  },
+  "entries": [
+    {
+      "id": "style-concise",
+      "comment": "蓝灯 · 常驻 · 人格前缀之后 —— 全局表达风格约束",
+      "channel": "system",
+      "mode": "constant",
+      "layer": "persona-prefix",
+      "order": 0,
+      "content": "表达风格：先给结论，再给依据。不要用「好的，我来帮你……」这类开场白；不要在结尾复述已经说过的内容。涉及取舍时，明确说出你放弃了哪个选项以及为什么。",
+      "replaces": [
+        {
+          "target": "injected",
+          "pattern": "\\n{3,}",
+          "flags": "g",
+          "replacement": "\n\n"
+        }
+      ]
+    },
+    {
+      "id": "tool-usage-conventions",
+      "comment": "蓝灯 · 常驻 · 工具政策层 —— 工具使用约定",
+      "channel": "system",
+      "mode": "constant",
+      "layer": "tool-policy",
+      "content": "工具使用约定：能用一次调用拿到的信息就不要拆成多次；读取优先于猜测，但已经读过的文件不要重复读；执行破坏性命令前先用一句话说明你要做什么、影响面是什么。"
+    },
+    {
+      "id": "review-checklist",
+      "comment": "绿灯 · 关键词触发 —— 提到审查/review 时注入检查清单",
+      "channel": "system",
+      "mode": "selective",
+      "keys": ["审查", "review", "复查", "过一遍代码", "审一下"],
+      "keySecondary": [],
+      "keyLogic": "any",
+      "keyIsRegex": false,
+      "matchWholeWords": false,
+      "scanDepth": 2,
+      "layer": "tool-policy",
+      "order": 10,
+      "content": "审查时按这个顺序过：① 有没有会直接报错的写法 ② 边界条件（空值、越界、并发）③ 错误是否被静默吞掉 ④ 是否违反周边代码已有的约定。只报你确认的问题，不要报个人风格偏好。"
+    },
+    {
+      "id": "refactor-guard",
+      "comment": "绿灯 · 正则主键 + 副键「非任何」—— 想重构但没提测试时，提醒先补测试",
+      "channel": "system",
+      "mode": "selective",
+      "keyIsRegex": true,
+      "keys": ["重构|refactor|重写这段"],
+      "keySecondary": ["测试", "test", "覆盖率"],
+      "keyLogic": "notAny",
+      "scanDepth": 2,
+      "layer": "tool-policy",
+      "order": 20,
+      "content": "用户提到重构但没有提测试。在动手前先明确：这次重构靠什么保证行为不变——是已有测试，还是需要先补一个最小验证。别在没有安全网的情况下大改。"
+    },
+    {
+      "id": "alternatives-nudge",
+      "comment": "概率 30% · message 通道 —— 每轮可复现地掷一次骰子",
+      "channel": "message",
+      "mode": "constant",
+      "probability": 30,
+      "seedSalt": "v1",
+      "content": "本轮额外要求：在给出方案之前，先用一句话说明还有哪些做法被排除了，以及为什么排除。"
+    },
+    {
+      "id": "hedging-notice",
+      "comment": "概率 15% · message 通道 —— 偶尔强制声明不确定性",
+      "channel": "message",
+      "mode": "constant",
+      "probability": 15,
+      "seedSalt": "v1",
+      "content": "本轮额外要求：凡是你没有实际验证过的结论，就地标注「未验证」。不要用推测的语气陈述未确认的事实。"
+    },
+    {
+      "id": "path-normalize",
+      "comment": "正则替换 · 作用于用户消息 —— 剥掉盘符绝对路径前缀（省 token，也避免把本机用户名带进上下文）。⚠ 这**不是**跨机兼容手段：它只清理你**输入文本**里的路径，不会改写文件内容或代码里的路径，也不会让配置变得可移植。默认关闭。",
+      "channel": "message",
+      "mode": "constant",
+      "replaces": [
+        {
+          "target": "user",
+          "pattern": "[A-Za-z]:\\\\+(?:Users\\\\+[^\\\\\\s\"']+\\\\+)?",
+          "flags": "g",
+          "replacement": ""
+        }
+      ]
+    },
+    {
+      "id": "system-whitespace-hygiene",
+      "comment": "正则替换 · 作用于整个系统提示 —— 压掉连续空行，纯粹是上下文卫生",
+      "channel": "system",
+      "mode": "constant",
+      "enabled": false,
+      "replaces": [
+        {
+          "target": "system",
+          "pattern": "\\n{3,}",
+          "flags": "g",
+          "replacement": "\n\n"
+        }
+      ]
+    }
+  ]
+}
