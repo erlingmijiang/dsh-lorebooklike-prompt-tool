@@ -151,6 +151,10 @@ dsh --profile <你的 profile> --dump-config   # 应出现 "# == dsh-lorebooklik
 > **本插件尚未发布到 npm**，所以要用 `github:owner/repo` 这个写法（pnpm 的 git 源简写）。
 > 写成裸包名 `add dsh-lorebooklike-prompt-tool` 会去 registry 找一个不存在的包然后失败。
 
+`<你的 profile>` 换成你实际在用的 profile 名：Electron 桌面应用里是 `desktop`，Web 场景是 `web`，
+纯命令行场景是 `headless`。不确定自己有哪些，看 `$DSH_HOME/profiles/` 下的目录名即可——
+目录名就是 profile 名（`node_modules` 除外）。
+
 本地开发时用目录链接：
 
 ```sh

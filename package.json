@@ -31,7 +31,8 @@
   "scripts": {
     "test": "node test/run.mjs && node test/smoke.mjs && node test/client.mjs && node test/manifest.mjs",
     "test:integration": "node test/integration.mjs",
-    "probe:sessions": "node test/probe-sessions.mjs"
+    "probe:sessions": "node test/probe-sessions.mjs",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "deepseek",
