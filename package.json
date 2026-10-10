@@ -1,0 +1,61 @@
+{
+  "name": "dsh-lorebooklike-prompt-tool",
+  "version": "0.1.0",
+  "description": "A lorebook-like prompt tool for DeepSeek Harness: layered system-prompt anchors, constant/keyword (blue/green) entries, reproducible probabilistic activation, and regex rewriting on three surfaces. Inspired by SillyTavern's World Info engine — but a general prompt-engineering layer, not a roleplay frontend. · DSH 类世界书的提示词工程层：分层锚点、蓝绿灯、可复现概率激活、三面正则替换。灵感来自酒馆世界书，但不是角色扮演前端。",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erlingmijiang/dsh-lorebooklike-prompt-tool.git"
+  },
+  "homepage": "https://github.com/erlingmijiang/dsh-lorebooklike-prompt-tool#readme",
+  "bugs": {
+    "url": "https://github.com/erlingmijiang/dsh-lorebooklike-prompt-tool/issues"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./engine": "./lib/engine.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "rules.example.json"
+  ],
+  "scripts": {
+    "test": "node test/run.mjs && node test/smoke.mjs && node test/client.mjs && node test/manifest.mjs",
+    "test:integration": "node test/integration.mjs",
+    "probe:sessions": "node test/probe-sessions.mjs"
+  },
+  "keywords": [
+    "deepseek",
+    "harness",
+    "dsh",
+    "dsh-plugin",
+    "prompt",
+    "prompt-engineering",
+    "prompt-injection",
+    "system-prompt",
+    "lorebook",
+    "worldbook",
+    "world-info",
+    "sillytavern",
+    "layered-prompt",
+    "context-cache"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  }
+}
