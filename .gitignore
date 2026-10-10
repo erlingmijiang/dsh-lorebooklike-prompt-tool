@@ -5,6 +5,9 @@ test/node_modules/
 # 用户自己的真实规则文件（可能含个人提示词，别误提交）
 rules.json
 
+# 本地 npm 凭据（绝不该进版本库）
+.npmrc
+
 # 运行时状态
 *.status.json
 *.log

@@ -144,16 +144,19 @@ DSH 有一条硬规则：**模型可见 ⟺ 已记录**。会话日志必须能�
 ## 安装
 
 ```sh
-dsh plugin --profile <你的 profile> add github:erlingmijiang/dsh-lorebooklike-prompt-tool
+dsh plugin --profile <你的 profile> add dsh-lorebooklike-prompt-tool
 dsh --profile <你的 profile> --dump-config   # 应出现 "# == dsh-lorebooklike-prompt-tool" 层
 ```
-
-> **本插件尚未发布到 npm**，所以要用 `github:owner/repo` 这个写法（pnpm 的 git 源简写）。
-> 写成裸包名 `add dsh-lorebooklike-prompt-tool` 会去 registry 找一个不存在的包然后失败。
 
 `<你的 profile>` 换成你实际在用的 profile 名：Electron 桌面应用里是 `desktop`，Web 场景是 `web`，
 纯命令行场景是 `headless`。不确定自己有哪些，看 `$DSH_HOME/profiles/` 下的目录名即可——
 目录名就是 profile 名（`node_modules` 除外）。
+
+想装**仓库里的最新开发版**（可能超前于 npm 上已发布的版本），用 pnpm 的 git 源简写直接指向仓库：
+
+```sh
+dsh plugin --profile <你的 profile> add github:erlingmijiang/dsh-lorebooklike-prompt-tool
+```
 
 本地开发时用目录链接：
 

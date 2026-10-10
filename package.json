@@ -1,6 +1,6 @@
 {
   "name": "dsh-lorebooklike-prompt-tool",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A lorebook-like prompt tool for DeepSeek Harness: layered system-prompt anchors, constant/keyword (blue/green) entries, reproducible probabilistic activation, and regex rewriting on three surfaces. Inspired by SillyTavern's World Info engine — but a general prompt-engineering layer, not a roleplay frontend. · DSH 类世界书的提示词工程层：分层锚点、蓝绿灯、可复现概率激活、三面正则替换。灵感来自酒馆世界书，但不是角色扮演前端。",
   "license": "MIT",
   "repository": {
